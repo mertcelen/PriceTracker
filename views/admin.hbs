@@ -1,0 +1,13 @@
+{{#if denied}}
+<form action="/admin" method="post">
+    <div class="input-group loginAdmin">
+        {{#if wrong}}
+            <div class="alert alert-danger" role="alert">Wrong username/password</div>
+        {{/if}}
+        <input name="password" type="password" class="form-control center" placeholder="Password"><br>
+        <button type="submit" class="btn btn-default">Login</button>
+    </div>
+</form>
+{{else}}
+<h2>It works!</h2>
+{{/if}}
