@@ -1,15 +1,16 @@
 var mongoose = require('mongoose');
 
 var gameModel = new mongoose.Schema({
-    gameName: { type: String, unique: true },
+    gameName: String,
     gameImageUrl: String,
     sources: [{
         sourceName: String,
         sourceLink: String,
         price: String
     }],
-    platform: String,
-    added: { type: Date, default: Date.now }
+    platform: { type: String, lowercase: true },
+    added: { type: Date, default: Date.now },
+    uniqueName: { unique: true, type: String, lowercase: true }
 });
 
 module.exports = mongoose.model('gameModel', gameModel);

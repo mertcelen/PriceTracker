@@ -4,6 +4,7 @@ var sourceModel = require('../../models/sourceModel');
 var gameModel = require('../../models/gameModel');
 var request = require('request');
 var parser = require('jsdom');
+
 var sourceArray = [{
     parseTag: "#Asellprice",
     sourceName: "WeBuy"
@@ -11,7 +12,7 @@ var sourceArray = [{
     parseTag: ".valuteCont.pricetext",
     sourceName: "GameStop"
 }, {
-    parseTag: 'meta[itemprop="price"]',
+    parseTag: "span[itemprop='price']",
     sourceName: "Smyths Toys"
 }]
 
@@ -34,28 +35,30 @@ function updateGame(req, res) {
             var id = game._id;
             var sources = game.sources;
 
-            for (var index = 0; index < 2; index++) {
-                // console.log("Getting new price in " + sources[index].sourceName);
-                // console.log("LINK > " + sources[index].sourceName);
-                // console.log("TAG > " + sourceArray[index].parseTag);
-
-
-                parser.env(
-                    sources[index].sourceLink, ["http://code.jquery.com/jquery.js"],
-                    function(err, window) {
-                        if (err) {
-                            console.log(err);
-                        }
-                        console.log(window);
-                        var tag = sourceArray[index].parseTag;
-                        var newPrice = window.$(tag).text();
-                        console.log(newPrice + " in " + sources[index].sourceName);
-                    }
-                );
+            for (var index = 0; index < sources.length; index++) {
+                parseData(game.gameName, sources[index].sourceLink, sourceArray[index].parseTag, sourceArray[index].sourceName);
             }
         }
     });
     // console.log('fonksiyon sonu');
+}
+
+var parseData = function(name, url, tag, where) {
+    parser.env(
+        url, ["http://code.jquery.com/jquery.js"],
+        function(err, window) {
+            if (err) {
+                console.log(err);
+            }
+            var newPrice = window.$(tag).html();
+            if (newPrice) {
+                // newPrice = newPrice.split("€").join('');
+                newPrice = newPrice.split("\t").join('');
+                newPrice = newPrice.split("\n").join('');
+            }
+            console.log(name + " is " + newPrice + " in " + where);
+        }
+    );
 }
 
 module.exports = router;

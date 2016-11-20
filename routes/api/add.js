@@ -37,7 +37,7 @@ router.game = function(req, res, next) {
         game.gameImageUrl = req.body.gameImageUrl;
         game.sources = JSON.parse(req.body.sources);
         game.platform = req.body.platform;
-
+        game.uniqueName = req.body.gameName + req.body.platform;
         game.save(function(error) {
             if (error) {
                 res.json({
