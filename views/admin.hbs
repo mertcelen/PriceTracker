@@ -1,13 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Panel</title>
+    <link rel='stylesheet' href='/stylesheets/bootstrap.min.css' />
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="/javascripts/admin.js"></script>
+    <style type="text/css">
+    .addGame,.addSource,.updateOne,.updateAll{
+        visibility: hidden;
+    }
+    </style>
+</head>
+<body>
 {{#if denied}}
 <form action="/admin" method="post">
     <div class="input-group loginAdmin">
         {{#if wrong}}
             <div class="alert alert-danger" role="alert">Wrong username/password</div>
         {{/if}}
-        <input name="password" type="password" class="form-control center" placeholder="Password"><br>
-        <button type="submit" class="btn btn-default">Login</button>
+        <input ng-model='password' name="password" type="password" class="form-control center" placeholder="Password"><br>
+        <button type="submit" class="btn btn-default" ng-click="updateMe()">Login</button>
     </div>
 </form>
 {{else}}
-<h2>It works!</h2>
+
+    <button class="btn btn-default" id="addGame">Add Game</button>
+    <button class="btn btn-default" id="addSource">Add Source</button>
+    <button class="btn btn-default" id="updateOne">Update One</button>
+    <button class="btn btn-default" id="updateAll">Update All</button>
+    <button class="btn btn-default" id="logout">Logout</button>
+    <div class="center">
+        
+    </div>
+        <div class="addGame content">
+            <form name="addGame" onsubmit="hello">
+                <input type="text" name="gameName" placeholder="Game Name">
+                <input type="text" name="gameImageUrl" placeholder="Game Image URL">
+                <select name="platform">
+                    <option>PS4</option>
+                    <option>Xbox One</option>
+                </select><br>
+                {{#each list}}
+                <div class="formData">
+                    <input type="text" class="sourceName" name="sourceName" style="visibility:hidden" value="{{this}}">
+                    <input id="source{{@index}}"type="text" class="sourceLink" placeholder="{{this}} URL">
+                    <input id="price{{@index}}" type="text" name="price" placeholder="price"><br>
+                    {{/each}}
+                    <input type="button" onclick="addGameForm()" value="Add Game">
+                </div>
+            </form>
+        </div>
+        <div class="addSource content">
+            add source    
+        </div>
+        <div class="updateOne content">
+            update one
+        </div>
+        <div class="updateAll content">
+            update all
+        </div>
+
+        <div class="json">
+        </div>
 {{/if}}
+</body>
+</html>

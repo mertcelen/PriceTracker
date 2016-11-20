@@ -1,1 +1,24 @@
-body{padding:50px;font:14px "Lucida Grande",Helvetica,Arial,sans-serif}a{color:#00B7FF}.loginAdmin{margin-left:auto;margin-right:auto;width:500px;text-align:center}.loginAdmin button{width:100%;margin-top:30px}
+.gameView {
+    background-color: #BBDEFB;
+    display: inline-block;
+    padding: 20px;
+    border-radius: 30px;
+}
+
+.gameView p {
+    font-size: 20px;
+}
+
+.gameView td {
+    text-align: left;
+    width: 144px;
+}
+
+.gameView .price {
+    font-size: 20px;
+}
+
+.game {
+    float: left;
+    display: inline-block;
+}
