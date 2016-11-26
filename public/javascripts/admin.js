@@ -37,7 +37,7 @@ var addGameForm = function() {
     var sourceJson = JSON.stringify(sources);
     $(".json").html(sourceJson);
 
-    $.post('/add/game', {
+    $.post('/api/add/game', {
             gameName: gameName,
             gameImageUrl: gameImageUrl,
             platform: platform,

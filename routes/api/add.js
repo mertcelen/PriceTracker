@@ -38,18 +38,22 @@ router.game = function(req, res, next) {
         game.sources = JSON.parse(req.body.sources);
         game.platform = req.body.platform;
         game.uniqueName = req.body.gameName + req.body.platform;
-        game.save(function(error) {
-            if (error) {
-                res.json({
-                    'error': error
-                });
-            } else {
-                console.log('New game > ' + req.body.gameName);
-                res.json({
-                    success: "added"
-                })
-            }
-        });
+        res.json({
+            game: game
+        })
+        // game.save(function(error) {
+            //     if (error) {
+            //         res.json({
+            //             'error': error
+            //         });
+            //     } else {
+            //         console.log('New game > ' + req.body.gameName);
+            //         res.json({
+            //             success: "added"
+            //         })
+            //     }
+            // });
+
     } else {
         res.json({
             error: "Access Denied"

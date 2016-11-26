@@ -41,7 +41,7 @@ app.use('/api/add/source', add.source);
 app.use('/api/add/game', add.game);
 app.use('/api/get/sources', get.sources);
 app.use('/api/get/platform/:name', get.platform);
-app.use('/api/get/all', get.all);
+app.get('/api/get/all', get.all);
 app.use('/api/get/game/:name', get.game);
 app.use('/api/update/one/:name', update.one);
 // app.use('/api/update/all', update.all);

@@ -1,7 +1,7 @@
 <ul ng-repeat="game in games">
 	<div class="gameView">
 		<p>{{game.gameName}}</p><br>
-		<img src="{{game.gameImageUrl}}" width="249" height="310">
+		<img ng-src='{{game.gameImageUrl}}' width="249" height="310">
 		<table>
 			<tr ng-repeat="source in game.sources | orderBy:source.price:reverse">
 				<td>{{source.sourceName}}</td>
