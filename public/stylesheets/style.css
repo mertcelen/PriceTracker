@@ -1,8 +1,10 @@
 .gameView {
-    background-color: #BBDEFB;
+    background-color: #E7E7E7;
     display: inline-block;
     padding: 20px;
     border-radius: 30px;
+    float: left;
+    margin: 10px;
 }
 
 .gameView p {
@@ -11,7 +13,6 @@
 
 .gameView td {
     text-align: left;
-    width: 144px;
 }
 
 .gameView .price {
@@ -21,4 +22,16 @@
 .game {
     float: left;
     display: inline-block;
+}
+body{
+    margin:30px;
+}
+
+.gameTable tr:nth-child(1),.gameTable tr:nth-child(2){
+    font-weight: bolder;
+    font-size:22px;
+}
+
+.gameTable td:nth-child(2){
+    text-align: right;
 }

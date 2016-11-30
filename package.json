@@ -17,6 +17,8 @@
         "mongoose": "~4.6.4",
         "express-session": "1.14.1",
         "request": "~2.78.0",
-        "jsdom": "~9.8.3"
+        "jsdom": "~9.8.3",
+        "async" : "~2.1.4",
+        "async-foreach" : "~0.1.3"
     }
 }

@@ -34,16 +34,22 @@ var admin = require('./routes/admin');
 var get = require('./routes/api/get');
 var add = require('./routes/api/add');
 var update = require('./routes/api/update');
+var redirect = require('./routes/redirect');
 
 app.use('/', index);
 app.use('/admin', admin);
 app.use('/api/add/source', add.source);
 app.use('/api/add/game', add.game);
+app.post('/api/add/alert', add.alert);
 app.use('/api/get/sources', get.sources);
 app.use('/api/get/platform/:name', get.platform);
 app.get('/api/get/all', get.all);
 app.use('/api/get/game/:name', get.game);
 app.use('/api/update/one/:name', update.one);
+
+app.use('/ps4',redirect.ps4);
+app.use('/xbox',redirect.xbox);
+
 // app.use('/api/update/all', update.all);
 
 //Webpages End

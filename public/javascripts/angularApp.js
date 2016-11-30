@@ -1,5 +1,5 @@
 var app = angular.module('PriceTracker', ['ngRoute']);
-
+history.replaceState('','','/');
 app.config(function($routeProvider) {
     $routeProvider
         .when('/', {
@@ -15,3 +15,9 @@ app.config(function($routeProvider) {
             controller: "xboxController"
         });
 });
+
+var linkHandler = function(title,url){
+    document.title = title;
+    history.pushState(title,title,url);
+    console.log('clicked');
+}

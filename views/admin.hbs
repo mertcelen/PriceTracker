@@ -17,6 +17,7 @@
 {{#if denied}}
 <form action="/admin" method="post">
     <div class="input-group loginAdmin">
+        <h2>Admin Panel</h2>
         {{#if wrong}}
             <div class="alert alert-danger" role="alert">Wrong username/password</div>
         {{/if}}
@@ -29,13 +30,15 @@
     <button class="btn btn-default" id="addGame">Add Game</button>
     <button class="btn btn-default" id="addSource">Add Source</button>
     <button class="btn btn-default" id="updateOne">Update One</button>
-    <button class="btn btn-default" id="updateAll">Update All</button>
+    <button class="btn btn-default" id="updateAll" disabled>Update All</button>
+    <button class="btn btn-default" id="goback">Go Back</button>
     <button class="btn btn-default" id="logout">Logout</button>
     <div class="center">
-        
+
     </div>
         <div class="addGame content">
-            <form name="addGame" onsubmit="hello">
+            <div id="addGameDiv" class="alert alert-info" role="alert">Ready for action!</div>
+            <form name="addGame">
                 <input type="text" name="gameName" placeholder="Game Name">
                 <input type="text" name="gameImageUrl" placeholder="Game Image URL">
                 <select name="platform">
@@ -53,13 +56,27 @@
             </form>
         </div>
         <div class="addSource content">
-            add source    
+            <div id="addSourceDiv" class="alert alert-info" role="alert">Ready for action!</div>
+
+            <form>
+                <input type="text" id="sourceName" placeholder="Source Name">
+                <input type="text" id="parseTag" placeholder="Parse Tag"><br><br>
+                <button onclick="addSource()">Add Source</button>
+            </form>
         </div>
         <div class="updateOne content">
-            update one
+            <div id="updateDiv" class="alert alert-info" role="alert">Ready for action!</div>
+    <table>
+        {{#each gameList}}
+            <tr>
+                <td><h2>{{this}}</h2></td>
+                <td><button onclick="updateGame('{{this}}')">Update</button><br></td>
+            </tr>
+        {{/each}}
+    </table>
         </div>
         <div class="updateAll content">
-            update all
+
         </div>
 
         <div class="json">

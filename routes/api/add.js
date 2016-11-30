@@ -7,9 +7,8 @@ router.source = function(req, res, next) {
 
     if (req.session && req.session.isAdmin) {
         var temp = new sourceModel();
-
+        console.log(req.body);
         temp.sourceName = req.body.sourceName;
-        temp.sourceWebsite = req.body.sourceWebsite;
         temp.parseTag = req.body.parseTag;
 
         temp.save(function(error) {
@@ -38,22 +37,18 @@ router.game = function(req, res, next) {
         game.sources = JSON.parse(req.body.sources);
         game.platform = req.body.platform;
         game.uniqueName = req.body.gameName + req.body.platform;
-        res.json({
-            game: game
-        })
-        // game.save(function(error) {
-            //     if (error) {
-            //         res.json({
-            //             'error': error
-            //         });
-            //     } else {
-            //         console.log('New game > ' + req.body.gameName);
-            //         res.json({
-            //             success: "added"
-            //         })
-            //     }
-            // });
-
+        game.save(function(error) {
+                if (error) {
+                    res.json({
+                        'error': error
+                    });
+                } else {
+                    console.log('New game > ' + req.body.gameName);
+                    res.json({
+                        success: "added"
+                    })
+                }
+            });
     } else {
         res.json({
             error: "Access Denied"
@@ -61,4 +56,26 @@ router.game = function(req, res, next) {
     }
 };
 
+router.alert = function(req,res,next){
+    if(req.body && req.body.deviceToken && req.body.gameId){
+        var alert = new alertModel();
+        alert.deviceToken = req.body.deviceToken;
+        alert.gameId = req.body.gameId;
+        alert.save(function(error){
+            if(error){
+                res.json({
+                    error : true
+                });
+            }else{
+                res.json({
+                    success : true
+                })
+            }
+        })
+    }else{
+        res.json({
+           error : true
+        });
+    }
+}
 module.exports = router;

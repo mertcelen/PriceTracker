@@ -2,63 +2,89 @@ var express = require('express');
 var router = express.Router();
 var sourceModel = require('../../models/sourceModel');
 var gameModel = require('../../models/gameModel');
-var request = require('request');
 var parser = require('jsdom');
+var async = require('async');
+var sourceArray = [];
 
-var sourceArray = [{
-    parseTag: "#Asellprice",
-    sourceName: "WeBuy"
-}, {
-    parseTag: ".valuteCont.pricetext",
-    sourceName: "GameStop"
-}, {
-    parseTag: "span[itemprop='price']",
-    sourceName: "Smyths Toys"
-}]
-
-router.one = function(req, res, next) {
+router.one = function (req, res) {
     updateGame(req, res);
 }
 
 function updateGame(req, res) {
-    var gameName = req.params.name;
+    if (req.session && req.session.isAdmin) {
+        var gameName = req.params.name, output = [], needUpdate = false, game, gameId;
 
-    gameModel.find({ "gameName": gameName }, function(err, temp) {
+        gameModel.findOne({"gameName": gameName}, function (err, temp) {
+            if (err || temp == null) {
+                res.json({
+                    error: "Game not found"
+                })
+            } else {
+                var sources = temp.sources;
+                game = temp;
+                //let's get source tags from db
+                sourceModel.find(function (error, data) {
+                    if (error) {
+                        res.json({
+                            error: true
+                        })
+                    } else {
+                        //    now we get source tags, we can continue.
+                        sourceArray = data;
 
-        var game = temp[0];
-        if (err) {
-            res.json({
-                error: "Game not found"
-            })
-        } else {
-            // console.log('Oyun bulundu');
-            var id = game._id;
-            var sources = game.sources;
+                        async.forEachOf(sourceArray, function (value, key, callback) {
+                            parser.env(
+                                sources[key].sourceLink, ["http://code.jquery.com/jquery.js"],
+                                function (err, window) {
+                                    if (err) {
+                                        console.log(err);
+                                    }
+                                    var newPrice = window.$(sourceArray[key].parseTag).html();
+                                    if (newPrice) {
+                                        newPrice = newPrice.split("€").join('');
+                                        newPrice = newPrice.split("\t").join('');
+                                        newPrice = newPrice.split("\n").join('');
+                                    }
+                                    var text = game.gameName + " is " + newPrice + " in " + sourceArray[key].sourceName;
+                                    output.push(text);
+                                    console.log(text);
+                                    if (needUpdate || game.sources[key].price != newPrice) {
+                                        needUpdate = true;//need to update data since price changed.
+                                        temp.sources[key].price = newPrice;
+                                    }
+                                    callback();
+                                }
+                            );
+                        }, function (error) {
+                            if (error) {
+                                res.json({
+                                    error: true
+                                });
+                            } else {
+                                res.json({
+                                    results: output
+                                })
+                                //    now we can update the database as well.
+                                if (needUpdate) {//no need to update if prices are same.
+                                    console.log("Prices changed for " + gameName);
+                                    temp.save(function (error) {
+                                        if (error) throw error;
+                                        console.log("Prices update in db for " + gameName);
+                                    })
+                                }
+                            }
+                        });
 
-            for (var index = 0; index < sources.length; index++) {
-                parseData(game.gameName, sources[index].sourceLink, sourceArray[index].parseTag, sourceArray[index].sourceName);
+                    }
+                });
             }
-        }
-    });
-    // console.log('fonksiyon sonu');
+        });
+    }else {
+        res.json({
+            error : "Not allowed!"
+        })
+    }
 }
 
-var parseData = function(name, url, tag, where) {
-    parser.env(
-        url, ["http://code.jquery.com/jquery.js"],
-        function(err, window) {
-            if (err) {
-                console.log(err);
-            }
-            var newPrice = window.$(tag).html();
-            if (newPrice) {
-                // newPrice = newPrice.split("€").join('');
-                newPrice = newPrice.split("\t").join('');
-                newPrice = newPrice.split("\n").join('');
-            }
-            console.log(name + " is " + newPrice + " in " + where);
-        }
-    );
-}
 
 module.exports = router;

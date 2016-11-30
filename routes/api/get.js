@@ -28,7 +28,7 @@ router.sources = function(req, res, next) {
 }
 
 router.platform = function(req, res, next) {
-    gameModel.find({ "platform": req.params.id }, function(err, list) {
+    gameModel.find({ "platform": req.params.name }, function(err, list) {
         if (err) {
             res.json(err);
         } else {
@@ -46,4 +46,5 @@ router.all = function(req, res, next) {
         }
     });
 };
+
 module.exports = router;

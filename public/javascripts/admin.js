@@ -1,4 +1,5 @@
 $(function() {
+    $(".center").html($(".addGame").html());
     $("button").click(function() {
         $(".content").css('visibility', 'hidden');
         $(".content").removeClass('active');
@@ -13,6 +14,9 @@ $(function() {
                 window.location.href = "/";
             }
         });
+    });
+    $("#goback").click(function() {
+        window.location = '/';
     });
 });
 
@@ -35,15 +39,50 @@ var addGameForm = function() {
         }
     });
     var sourceJson = JSON.stringify(sources);
-    $(".json").html(sourceJson);
-
+    var statusLabel = $("#addGameDiv");
+    statusLabel.text("Adding " + gameName);
+    statusLabel.addClass("alert-info");
     $.post('/api/add/game', {
             gameName: gameName,
             gameImageUrl: gameImageUrl,
             platform: platform,
             sources: sourceJson
         },
-        function(data, textStatus, xhr) {
-            $(".json").html("added");
+        function(data) {
+            var result = JSON.stringify(data);
+            if(result.error){
+                statusLabel.text("Error, game already exist!");
+                statusLabel.removeClass("alert-info");
+                statusLabel.addClass("alert-error");
+            }else{
+                statusLabel.removeClass("alert-info");
+                statusLabel.addClass("alert-success");
+                statusLabel.text("Game added!");
+            }
         });
+}
+
+var addSource = function(){
+    var sourceName = $("#sourceName").val();
+    var parseTag = $("#parseTag").val();
+    var statusLabel = $("#addSourceDiv");
+    statusLabel.text("Adding " + sourceName);
+    statusLabel.addClass("alert-info");
+    $.post('/api/add/source',{
+        "sourceName" : sourceName,
+        "parseTag" : parseTag
+    },function(data){
+        statusLabel.removeClass("alert-info");
+        statusLabel.addClass("alert-success");
+        statusLabel.text("Source added!");
+    })
+}
+
+var updateGame = function(gameName){
+    var statusLabel = $("#updateDiv");
+    statusLabel.text("Updating " + gameName);
+    statusLabel.addClass("alert-info");
+    $.get('/api/update/one/' + gameName,function(data){
+
+    });
 }
