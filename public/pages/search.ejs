@@ -1,0 +1,13 @@
+<h1>Search Results</h1>
+<ul ng-repeat="game in games | orderBy:'-'">
+    <div class="gameView">
+        <table class="gameTable">
+            <th><p>{{game.gameName}}</p></th>
+            <img ng-src='{{game.gameImageUrl}}' width="249" height="310">
+            <tr ng-repeat="source in game.sources | orderBy : 'price'">
+                <td>{{source.sourceName}}</td>
+                <td class="price"><a href="{{source.sourceLink}}" target="_blank">{{source.price}}</a></td>
+            </tr>
+        </table>
+    </div>
+</ul>

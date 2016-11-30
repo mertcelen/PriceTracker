@@ -13,11 +13,9 @@ app.config(function($routeProvider) {
         .when('/xbox', {
             templateUrl: "pages/xbox.ejs",
             controller: "xboxController"
+        })
+        .when('/search/:name',{
+            templateUrl : "pages/search.ejs",
+            controller : "searchController"
         });
 });
-
-var linkHandler = function(title,url){
-    document.title = title;
-    history.pushState(title,title,url);
-    console.log('clicked');
-}

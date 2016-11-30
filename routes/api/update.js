@@ -7,10 +7,10 @@ var async = require('async');
 var sourceArray = [];
 
 router.one = function (req, res) {
-    updateGame(req, res);
+    updateGamePrices(req, res);
 }
 
-function updateGame(req, res) {
+function updateGamePrices(req, res) {
     if (req.session && req.session.isAdmin) {
         var gameName = req.params.name, output = [], needUpdate = false, game, gameId;
 
@@ -85,6 +85,5 @@ function updateGame(req, res) {
         })
     }
 }
-
 
 module.exports = router;

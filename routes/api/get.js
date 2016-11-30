@@ -4,7 +4,8 @@ var sourceModel = require('../../models/sourceModel');
 var gameModel = require('../../models/gameModel');
 
 router.game = function(req, res, next) {
-    gameModel.find({ "gameName": req.params.name }, function(err, list) {
+    var name = ".*" + req.params.name + ".*";
+    gameModel.find({ "gameName": {$regex : name,$options:'i'} }, function(err, list) {
         if (err) {
             res.json(err);
         } else {

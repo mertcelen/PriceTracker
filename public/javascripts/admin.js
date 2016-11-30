@@ -83,6 +83,8 @@ var updateGame = function(gameName){
     statusLabel.text("Updating " + gameName);
     statusLabel.addClass("alert-info");
     $.get('/api/update/one/' + gameName,function(data){
-
+        statusLabel.text("Game updated!");
+        statusLabel.removeClass("alert-info");
+        statusLabel.addClass("alert-success");
     });
 }
