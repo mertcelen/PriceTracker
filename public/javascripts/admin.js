@@ -29,12 +29,11 @@ var addGameForm = function() {
     $(".sourceName").each(function(index, el) {
         var link = $("#source" + index).val();
         if (typeof(link) !== "undefined") {
-            var price = $("#price" + index).val();
             var name = $(el).attr('value');
             sources.push({
                 sourceName: name,
                 sourceLink: link,
-                price: price
+                price: 0
             });
         }
     });
@@ -55,9 +54,12 @@ var addGameForm = function() {
                 statusLabel.removeClass("alert-info");
                 statusLabel.addClass("alert-error");
             }else{
-                statusLabel.removeClass("alert-info");
-                statusLabel.addClass("alert-success");
-                statusLabel.text("Game added!");
+                statusLabel.text("Added to database, now getting prices.");
+                $.get('/api/update/one/' + gameName,function(data){
+                    statusLabel.removeClass("alert-info");
+                    statusLabel.addClass("alert-success");
+                    statusLabel.text("Game added!");
+                });
             }
         });
 }
@@ -84,6 +86,17 @@ var updateGame = function(gameName){
     statusLabel.addClass("alert-info");
     $.get('/api/update/one/' + gameName,function(data){
         statusLabel.text("Game updated!");
+        statusLabel.removeClass("alert-info");
+        statusLabel.addClass("alert-success");
+    });
+}
+
+var removeGame = function(gameName){
+    var statusLabel = $("#updateDiv");
+    statusLabel.text("Removing " + gameName);
+    statusLabel.addClass("alert-info");
+    $.get('/api/remove/game/' + gameName,function(data){
+        statusLabel.text("Game removed!");
         statusLabel.removeClass("alert-info");
         statusLabel.addClass("alert-success");
     });

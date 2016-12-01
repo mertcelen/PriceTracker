@@ -35,3 +35,7 @@ body{
 .gameTable td:nth-child(2){
     text-align: right;
 }
+
+.content{
+    visibility: hidden;
+}

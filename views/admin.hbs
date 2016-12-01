@@ -2,85 +2,97 @@
 <html>
 <head>
     <title>Admin Panel</title>
-    <link rel='stylesheet' href='/stylesheets/bootstrap.min.css' />
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-    
+    <link rel='stylesheet' href='/stylesheets/bootstrap.min.css'/>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script type="text/javascript" src="/javascripts/admin.js"></script>
     <style type="text/css">
-    .addGame,.addSource,.updateOne,.updateAll{
-        visibility: hidden;
-    }
+        .addGame, .addSource, .updateOne, .updateAll {
+            visibility: hidden;
+        }
     </style>
 </head>
 <body>
 {{#if denied}}
-<form action="/admin" method="post">
-    <div class="input-group loginAdmin">
-        <h2>Admin Panel</h2>
-        {{#if wrong}}
-            <div class="alert alert-danger" role="alert">Wrong username/password</div>
-        {{/if}}
-        <input ng-model='password' name="password" type="password" class="form-control center" placeholder="Password"><br>
-        <button type="submit" class="btn btn-default" ng-click="updateMe()">Login</button>
-    </div>
-</form>
+    <form action="/admin" method="post">
+        <div class="input-group loginAdmin">
+            <h2>Admin Panel</h2>
+            {{#if wrong}}
+                <div class="alert alert-danger" role="alert">Wrong username/password</div>
+            {{/if}}
+            <input ng-model='password' name="password" type="password" class="form-control center"
+                   placeholder="Password"><br>
+            <button type="submit" class="btn btn-default" ng-click="updateMe()">Login</button>
+        </div>
+    </form>
 {{else}}
 
     <button class="btn btn-default" id="addGame">Add Game</button>
     <button class="btn btn-default" id="addSource">Add Source</button>
-    <button class="btn btn-default" id="updateOne">Update One</button>
+    <button class="btn btn-default" id="updateOne">Update Price</button>
     <button class="btn btn-default" id="updateAll" disabled>Update All</button>
+    <button class="btn btn-default" id="removeGame">Remove Game</button>
     <button class="btn btn-default" id="goback">Go Back</button>
     <button class="btn btn-default" id="logout">Logout</button>
     <div class="center">
 
     </div>
-        <div class="addGame content">
-            <div id="addGameDiv" class="alert alert-info" role="alert">Ready for action!</div>
-            <form name="addGame">
-                <input type="text" name="gameName" placeholder="Game Name">
-                <input type="text" name="gameImageUrl" placeholder="Game Image URL">
-                <select name="platform">
-                    <option>PS4</option>
-                    <option>Xbox</option>
-                </select><br>
-                {{#each list}}
-                <div class="formData">
-                    <input type="text" class="sourceName" name="sourceName" style="visibility:hidden" value="{{this}}">
-                    <input id="source{{@index}}"type="text" class="sourceLink" placeholder="{{this}} URL">
-                    <input id="price{{@index}}" type="text" name="price" placeholder="price"><br>
-                    {{/each}}
-                    <input type="button" onclick="addGameForm()" value="Add Game">
-                </div>
-            </form>
+    <div class="addGame content">
+        <div id="addGameDiv" class="alert alert-info" role="alert">Ready for action!</div>
+        <form name="addGame">
+            <input type="text" name="gameName" placeholder="Game Name">
+            <input type="text" name="gameImageUrl" placeholder="Game Image URL">
+            <select name="platform">
+                <option>PS4</option>
+                <option>Xbox</option>
+            </select><br>
+            {{#each list}}
+            <div class="formData">
+                <input type="text" class="sourceName" name="sourceName" style="visibility:hidden" value="{{this}}">
+                <input id="source{{@index}}" type="text" class="sourceLink" placeholder="{{this}} URL">
+            {{/each}}
+            <input type="button" onclick="addGameForm()" value="Add Game">
         </div>
-        <div class="addSource content">
-            <div id="addSourceDiv" class="alert alert-info" role="alert">Ready for action!</div>
+        </form>
+    </div>
+    <div class="addSource content">
+        <div id="addSourceDiv" class="alert alert-info" role="alert">Ready for action!</div>
+        <form>
+            <input type="text" id="sourceName" placeholder="Source Name">
+            <input type="text" id="parseTag" placeholder="Parse Tag"><br><br>
+            <button onclick="addSource()">Add Source</button>
+        </form>
+    </div>
+    <div class="updateOne content">
+        <div id="updateDiv" class="alert alert-info" role="alert">Ready for action!</div>
+        <table>
+            {{#each gameList}}
+                <tr>
+                    <td><h2>{{this}}</h2></td>
+                    <td>
+                        <button onclick="updateGame('{{this}}')">Update</button>
+                        <br></td>
+                </tr>
+            {{/each}}
+        </table>
+    </div>
+    <div class="updateAll content">
 
-            <form>
-                <input type="text" id="sourceName" placeholder="Source Name">
-                <input type="text" id="parseTag" placeholder="Parse Tag"><br><br>
-                <button onclick="addSource()">Add Source</button>
-            </form>
-        </div>
-        <div class="updateOne content">
-            <div id="updateDiv" class="alert alert-info" role="alert">Ready for action!</div>
-    <table>
-        {{#each gameList}}
-            <tr>
-                <td><h2>{{this}}</h2></td>
-                <td><button onclick="updateGame('{{this}}')">Update</button><br></td>
-            </tr>
-        {{/each}}
-    </table>
-        </div>
-        <div class="updateAll content">
-
-        </div>
-
-        <div class="json">
-        </div>
+    </div>
+    <div class="removeGame content">
+        <div id="updateDiv" class="alert alert-info" role="alert">Ready for action!</div>
+        <table>
+            {{#each gameList}}
+                <tr>
+                    <td><h2>{{this}}</h2></td>
+                    <td>
+                        <button onclick="removeGame('{{this}}')">Remove</button>
+                        <br></td>
+                </tr>
+            {{/each}}
+        </table>
+    </div>
 {{/if}}
 </body>
 </html>
