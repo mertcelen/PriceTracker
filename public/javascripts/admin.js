@@ -1,6 +1,6 @@
 $(function() {
     $(".center").html($(".addGame").html());
-    $("button").click(function() {
+    $("li").click(function() {
         $(".content").css('visibility', 'hidden');
         $(".content").removeClass('active');
         $(".center").html($('.' + $(this).attr('id')).html());
@@ -100,4 +100,20 @@ var removeGame = function(gameName){
         statusLabel.removeClass("alert-info");
         statusLabel.addClass("alert-success");
     });
+}
+
+var currentCount = 0;
+
+var updateGames = function(){
+    var statusLabel = $("#updateAllDiv");
+    $(".gameNames").each(function(){
+        var name  = $(this).text();
+        var gameCount = $(".gameCount").text();
+        $.get('/api/update/one/' + name),function(data){
+        //
+        }
+    });
+    statusLabel.text("All updates requested, server will update all data in background.");
+    statusLabel.removeClass("alert-info");
+    statusLabel.addClass("alert-success");
 }

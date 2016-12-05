@@ -24,13 +24,14 @@ router.get('/', function(req, res) {
                 for (var i =0;i<list.length;i++){
                     games.push(list[i].gameName);
                 }
+                res.render('admin', {
+                    denied: false,
+                    wrong: false,
+                    list: sources,
+                    gameList : games
+                });
             });
-            res.render('admin', {
-                denied: false,
-                wrong: false,
-                list: sources,
-                gameList : games
-            });
+
         }
     } else if (req.query.wrong) {
         res.render('admin', {
@@ -76,4 +77,5 @@ router.delete('/', function(req, res) {
         res.send('ok');
     }
 });
+
 module.exports = router;

@@ -39,3 +39,6 @@ body{
 .content{
     visibility: hidden;
 }
+.dropdown{
+    float:left;
+}

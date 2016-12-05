@@ -7,6 +7,7 @@
 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script type="text/javascript" src="/javascripts/admin.js"></script>
+    <script type="text/javascript" src="/javascripts/bootstrap.min.js"></script>
     <style type="text/css">
         .addGame, .addSource, .updateOne, .updateAll {
             visibility: hidden;
@@ -27,18 +28,54 @@
         </div>
     </form>
 {{else}}
-
-    <button class="btn btn-default" id="addGame">Add Game</button>
-    <button class="btn btn-default" id="addSource">Add Source</button>
-    <button class="btn btn-default" id="updateOne">Update Price</button>
-    <button class="btn btn-default" id="updateAll" disabled>Update All</button>
-    <button class="btn btn-default" id="removeGame">Remove Game</button>
-    <button class="btn btn-default" id="goback">Go Back</button>
-    <button class="btn btn-default" id="logout">Logout</button>
+<nav>
+    <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            Add
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <li id="addGame"><a href="#">Add Game</a></li>
+            <li id="addSource"><a href="#">Add Source</a></li>
+        </ul>
+    </div>
+    <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            Update
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <li id="updateOne"><a href="#">Update Price</a></li>
+            <li id="updateAll"><a href="#" disabled>Update All</a></li>
+        </ul>
+    </div>
+    <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            Remove
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <li id="removeGame"><a href="#">Remove Game</a></li>
+            <li id="removeSource"><a href="#" disabled>Remove Source</a></li>
+        </ul>
+    </div>
+    <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            Exit
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <li id="goback"><a href="#">Go Back</a></li>
+            <li id="logout"><a href="#">Logout</a></li>
+        </ul>
+    </div>
+    <br><br>
+</nav>
     <div class="center">
 
     </div>
     <div class="addGame content">
+        <h3>Add Game</h3>
         <div id="addGameDiv" class="alert alert-info" role="alert">Ready for action!</div>
         <form name="addGame">
             <input type="text" name="gameName" placeholder="Game Name">
@@ -57,6 +94,7 @@
         </form>
     </div>
     <div class="addSource content">
+        <h3>Add Source</h3>
         <div id="addSourceDiv" class="alert alert-info" role="alert">Ready for action!</div>
         <form>
             <input type="text" id="sourceName" placeholder="Source Name">
@@ -65,11 +103,12 @@
         </form>
     </div>
     <div class="updateOne content">
+        <h3>Update Price</h3>
         <div id="updateDiv" class="alert alert-info" role="alert">Ready for action!</div>
         <table>
             {{#each gameList}}
                 <tr>
-                    <td><h2>{{this}}</h2></td>
+                    <td><h2 class="gameNames">{{this}}</h2></td>
                     <td>
                         <button onclick="updateGame('{{this}}')">Update</button>
                         <br></td>
@@ -78,9 +117,13 @@
         </table>
     </div>
     <div class="updateAll content">
+        <h3>Update All</h3>
+        <div id="updateAllDiv" class="alert alert-info" role="alert"><span class="gameCount">{{gameList.length}}</span> games ready to update!</div>
+        <button class="btn btn-default" onclick="updateGames()">Click for update all</button>
 
     </div>
     <div class="removeGame content">
+        <h3>Remove Game</h3>
         <div id="updateDiv" class="alert alert-info" role="alert">Ready for action!</div>
         <table>
             {{#each gameList}}
@@ -93,6 +136,7 @@
             {{/each}}
         </table>
     </div>
+
 {{/if}}
 </body>
 </html>
